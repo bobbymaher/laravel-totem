@@ -39,6 +39,16 @@ class TotemServiceProvider extends ServiceProvider
             define('TOTEM_PATH', realpath(__DIR__.'/../../'));
         }
 
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/totem.php',
+            'totem'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/frequencies.php',
+            'totem.frequencies'
+        );
+
         $this->commands([
             ListSchedule::class,
             PublishAssets::class,
@@ -52,11 +62,6 @@ class TotemServiceProvider extends ServiceProvider
         if (Schema::hasTable('tasks')) {
             $this->app->register(ConsoleServiceProvider::class);
         }
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/totem.php',
-            'totem'
-        );
     }
 
     /**
@@ -78,6 +83,10 @@ class TotemServiceProvider extends ServiceProvider
      */
     public function defineAssetPublishing()
     {
+//        $this->publishes([
+//            TOTEM_PATH.'/config/totem.php' => config_path('totem.php'),
+//        ], 'totem-assets');
+
         $this->publishes([
             TOTEM_PATH.'/public/js' => public_path('vendor/totem/js'),
         ], 'totem-assets');
